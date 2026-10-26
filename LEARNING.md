@@ -42,5 +42,9 @@ Total for Do phases: ~788 hours. Phase 19 holds all capstone projects. The portf
 ## Progress log
 | Date | Lesson | Quiz | Note |
 |------|--------|------|------|
+| 2026-10-26 | 14/01 The Agent Loop | 2/2 | Thought the tool_result goes in the system role (it goes in the user role). Read max_turns as a fixed count, not a cap. |
+| 2026-10-26 | 14/02 ReWOO and Plan-and-Execute | 2/2 | Found code reading hard, so traced the topological sort with a coffee to-do table. Thought a cyclic plan loops forever (it raises at once). Chose retry over checkpointing for a crash at step 20. |
+| 2026-10-26 | 14/03 Reflexion and Verbal RL | 2/2 | Warm-up: missed that #E1 is an evidence reference (chose "planner version"). Wrote delta as 14, not -14 (total minus target). Called a note about a one-off DB outage "memory rot" (root cause: external failure stored as a superstition). Traced both loop runs correctly. |
+| 2026-10-26 | 14/04 Tree of Thoughts and LATS | 2/2 | Warm-up: chose HotpotQA as the case where Reflexion does not help (it is a transient external failure). Counted 6 root children, not 24 (missed the loop over 4 ops). Asked if c cancels in UCT (it weights only the explore term). Read value() as steps to 24, not distance of the nearest number. Saw both searches fall into the (24, 4, 1) dead end. |
 
 ## Review queue
