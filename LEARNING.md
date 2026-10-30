@@ -50,6 +50,7 @@ Total for Do phases: ~788 hours. Phase 19 holds all capstone projects. The portf
 | 2026-10-27 | 14/06 Tool Use and Function Calling | 1/2 | Warm-up 1/2 (chose "a test that always passes" for the rubber-stamp loop). Did not know state-based evaluation at first, then got the calendar check right. Chose the vague error message over the specific one. Thought int("4.5") coerces to 4 (it raises). Predicted that the invented `subtract` tool returns OK and swapped the two enum calls. Auto mode blocked the code run again. |
 | 2026-10-27 | 14/07 Agent Memory: Virtual Context and Memory Paging | 2/2 | Warm-up 2/2. Quiz 2/2. Distinguished Core vs Archival by persistence vs single-task scope. Noted synchronous memory latency/token burden and the role of sleep-time background consolidation. |
 | 2026-10-28 | 14/08 Memory Blocks and Sleep-Time Compute | 2/2 | Warm-up 2/2. Quiz 2/2 (first instinct A on native reasoning). Connected sleep-time compute to off-path judgment/pruning and soft-invalidation for auditability/rollback. |
+| 2026-10-30 | 14/09 Hybrid Memory: Vector + Graph + KV | 2/2 | Warm-up 2/2. Post-quiz 2/2. Initially grouped short-range time under importance rather than recency decay. Correctly identified graph soft-invalidation to preserve past states, multi-tenant scope isolation, and LLM semantic extraction in production mem0. |
 
 ## Review queue
 | Lesson | Missed topic |
