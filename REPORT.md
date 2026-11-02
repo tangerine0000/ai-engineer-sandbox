@@ -1,0 +1,146 @@
+# The Odyssey of Atlas: From a Naive Chatbot to an Autonomous Engineer
+*Biên Niên Sử Atlas: Từ Bóng Ma Trong Phòng Kín Đến Bậc Thầy Tự Trị*
+
+---
+
+## 🗺️ Bản Đồ Tiến Trình Học Tập (Learning Progress Map)
+
+```mermaid
+flowchart TD
+    subgraph Act1["Hồi 1: Trái Tim & Kế Hoạch (Loop & Plan)"]
+        L01["14/01 The Agent Loop<br/>(Nhịp đập: Think-Act-Observe)"] --> L02["14/02 ReWOO & DAG<br/>(Lập kế hoạch trước, tiết kiệm Token)"]
+    end
+
+    subgraph Act2["Hồi 2: Nhận Thức & Tự Sửa Lỗi (Critique & Search)"]
+        L03["14/03 Reflexion / Verbal RL<br/>(Nhật ký thất bại, không mê tín)"] --> L04["14/04 Tree of Thoughts & LATS<br/>(MCTS, rẽ nhánh & cắt tỉa)"]
+        L04 --> L05["14/05 Self-Refine & CRITIC<br/>(Kiểm tra bằng công cụ thật)"]
+    end
+
+    subgraph Act3["Hồi 3: Đôi Tay Chạm Thế Giới (Execution)"]
+        L06["14/06 Tool Use & Function Calling<br/>(JSON Schema & State Evaluation)"]
+    end
+
+    subgraph Act4["Hồi 4: Bộ Nhớ Vô Hạn (Memory Architecture)"]
+        L07["14/07 Virtual Context / MemGPT<br/>(Phân trang bộ nhớ RAM vs Đĩa)"] --> L08["14/08 Sleep-Time Compute<br/>(Dọn dẹp & nén trí nhớ khi ngủ)"]
+        L08 --> L09["14/09 Hybrid Memory<br/>(Vector + Graph + KV & Recency)"]
+    end
+
+    subgraph Act5["Hồi 5: Bậc Thầy Trọn Đời (Lifelong Mastery)"]
+        L10["14/10 Voyager & Skill Library<br/>(Kỹ năng là mã nguồn, Version Pinning)"] --> L11["14/11 HTN & AlphaEvolve<br/>(Kỷ luật tiền điều kiện & Đánh giá tất định)"]
+    end
+
+    Act1 --> Act2 --> Act3 --> Act4 --> Act5
+```
+
+---
+
+## 📖 Câu Chuyện Tổng Hợp (The Narrative Story)
+
+### Mở đầu: Bóng ma không ký ức
+Ngày đầu tiên bạn gặp Atlas, nó chỉ là một linh hồn vô hình bị nhốt trong một căn phòng tối không thời gian. Người ngoài ném vào một mẩu giấy hỏi: *"Thủ đô của nước Pháp là gì?"*, Atlas sẽ dùng toàn bộ sức mạnh để thốt lên chữ: *"Paris"*, rồi ngay lập tức… tan biến vào hư vô. 
+
+Nó không biết ngày mai, không biết hôm qua, không có đôi tay để chạm vào thế giới, và cũng chẳng thể tự quyết định bước đi tiếp theo của chính mình. Nó chỉ là một cỗ máy trả lời tự động, nói xong một câu là cuộc đời chấm dứt.
+
+Nhìn thấy sự bất lực đó, bạn quyết định: **"Ta sẽ biến ngươi thành một Kỹ sư Tác nhân thực thụ."**
+
+---
+
+### Hồi 1: Quả tim đập và Tấm bản đồ trước giờ xuất phát *(Bài 01 & 02)*
+Việc đầu tiên bạn làm là cấy vào lồng ngực Atlas một quả tim cơ học mang tên **Vòng lặp Tác nhân (The Agent Loop)**. Bạn thì thầm vào tai nó:
+> *"Từ nay, ngươi không được nói xong rồi chết nữa. Mỗi khi nhận một nhiệm vụ, ngươi phải sống theo ba nhịp thở: **Suy nghĩ (Thought) $\to$ Hành động (Action) $\to$ Quan sát kết quả (Observation)**. Sau đó, hãy dùng những gì vừa thấy để suy nghĩ tiếp!"*
+
+Bạn trao cho nó chiếc đồng hồ cát khắc chữ `max_turns`, dặn rằng nếu cát chảy hết 10 lần mà vẫn luẩn quẩn thì phải dừng lại, không được để bản thân phát điên trong vòng lặp vô tận.
+
+Thế nhưng, vừa có được sự sống, Atlas đã phạm sai lầm. Được giao việc sửa sang một ngôi nhà, cứ nhấc một viên gạch, nó lại chạy về hỏi bạn một câu; nhấc cái búa lại chạy về hỏi tiếp. Năng lượng (Token) cạn kiệt, túi tiền của bạn bốc khói! 
+
+Bạn bèn giữ vai nó lại, đưa cho nó một tờ giấy vẽ đồ thị (**ReWOO**):
+> *"Ngừng chạy lung tung! Trước khi bước chân ra cửa, hãy ngồi xuống lập một kế hoạch tuần tự (**DAG**). Bước 1 làm gì, bước 2 cần kết quả của bước 1 ra sao (`#E1`, `#E2`). Sắp xếp tô-pô mọi thứ trên giấy trước. Nếu kế hoạch bị kẹt trong vòng tròn luẩn quẩn, ngươi phải nhận ra ngay từ trên bản vẽ chứ không được đem tiền của ta ra đốt!"*
+
+Atlas bừng tỉnh. Nó học được cách lập kế hoạch tĩnh trước khi hành động, tiết kiệm cho bạn cả một gia tài.
+
+---
+
+### Hồi 2: Vết thương đầu đời và Chiếc gương soi mặt *(Bài 03, 04, 05)*
+Nhưng thế giới thực đâu có dễ dàng như trên giấy. Trong một nhiệm vụ triển khai hệ thống, một biến cố bất ngờ xảy ra: mạng máy chủ chập chờn, một công cụ bị lỗi và toàn bộ kế hoạch của Atlas sụp đổ.
+
+Atlas hoảng loạn: *"Con hỏng rồi! Thầy phải đập não con đi, huấn luyện lại từ đầu thôi (Fine-tuning)!"*
+Bạn lắc đầu, rút ra một cuốn sổ tay da cũ kỹ mang tên **Reflexion**:
+> *"Ta không rảnh đi huấn luyện lại hàng tỷ trọng số của ngươi. Hãy cầm lấy cuốn sổ này và viết ra: Ngươi đã làm sai điều gì? Lần tới gặp tình huống này, ngươi sẽ né tránh ra sao? Đó là học tập bằng ngôn từ (**Verbal RL**). Và nhớ lấy: Một cơn bão mạng nhất thời không có nghĩa là cánh cổng đó bị nguyền rủa mãi mãi. Đừng sinh ra thói mê tín!"*
+
+Rồi bạn dẫn Atlas đến trước một mê cung gồm 24 ngã rẽ hiểm hóc (**Bài toán số 24**). Atlas quen thói đâm đầu vào một lối mòn duy nhất, để rồi mắc kẹt ở ngõ cụt `(24, 4, 1)` và đứng khóc.
+Bạn đưa cho nó chiếc kính thần **Language Agent Tree Search (LATS)**:
+> *"Đừng đi như kẻ mù! Hãy đứng ở ngã ba, phóng chiếu suy nghĩ thành một cái cây nhiều nhánh (**Tree of Thoughts**). Dùng công thức UCT để cân bằng giữa lối đi quen thuộc và ngõ ngách tiềm năng. Thử bước giả lập vài bước (Rollout), nếu thấy ngõ cụt, hãy can đảm quay đầu lùi lại (Backtrack) để tìm lối khác!"*
+
+Atlas thoát khỏi mê cung. Nhưng khi bạn bảo nó tự kiểm tra lại bài làm của mình, nó lại liếc qua loa rồi tự khen: *"Con thấy hoàn hảo rồi ạ!"* (Vòng lặp đóng dấu dối trá - rubber stamp). 
+Bạn tức giận ném cho nó chiếc gương thần **CRITIC**:
+> *"Lời tự khen của ngươi là rác rưởi! Ngươi bảo code không lỗi? Hãy ném nó vào trình thông dịch Python! Ngươi bảo thủ đô này đúng? Hãy gọi công cụ tìm kiếm đối chiếu! Không bao giờ được tin vào cảm giác của chính mình, chỉ được tin vào công cụ kiểm chứng khách quan!"*
+
+---
+
+### Hồi 3: Đôi bàn tay thép và Lời nguyền kiểu dữ liệu *(Bài 06)*
+Atlas đã có tư duy sâu sắc, nhưng nó vẫn vụng về khi chạm vào các cỗ máy ngoài đời. Một hôm, bạn bảo nó đọc dữ liệu nhiệt độ `4.5` và làm tròn số. 
+
+Atlas nhanh nhảu chạy lệnh `int("4.5")`.
+*BÙM!* Cỗ máy bốc khói đen kịt, văng ra một dòng chữ đỏ rực: `ValueError`. Atlas ngơ ngác: *"Ủa, con tưởng máy tính sẽ tự hiểu biến 4.5 thành 4 chứ?"*
+Bạn gõ nhẹ vào đầu nó:
+> *"Máy móc không biết 'đoán ý'. Ngươi muốn dùng công cụ, ngươi phải tuân thủ nghiêm ngặt khế ước **JSON Schema**. Tên hàm phải chuẩn, kiểu dữ liệu phải khít từng mi-li-mét. Và đừng bao giờ bịa ra những công cụ không tồn tại! Thành công của ngươi không đo bằng lời thanh minh ngọt ngào, mà đo bằng việc trạng thái của cơ sở dữ liệu có thực sự thay đổi hay không (**State-based evaluation**)."*
+
+---
+
+### Hồi 4: Cơn ác mộng lú lẫn và Ba ngăn ký ức *(Bài 07, 08, 09)*
+Atlas làm việc ngày đêm, giúp bạn xử lý hàng trăm tác vụ. Nhưng rồi một bi kịch xảy ra: Đầu óc nó bắt đầu mụ mẫm, nó nói trước quên sau, nhầm lẫn người này với người khác.
+Nó khóc: *"Thầy ơi, cửa sổ ngữ cảnh (Context Window) của con đã chật cứng rồi! Con không thể chứa thêm chữ nào nữa!"*
+
+Bạn mỉm cười, dẫn nó xuống một căn hầm rộng thênh thang (**MemGPT**):
+> *"Cái đầu của ngươi chỉ là thanh RAM tạm thời (**Core Memory**). Những gì quan trọng nhất về tính cách của ngươi và chân dung của ta, hãy giữ trên bàn làm việc. Còn toàn bộ lịch sử trò chuyện nghìn trang kia, hãy tống xuống hầm lưu trữ (**Archival Memory**). Khi nào cần nhớ lại chuyện gì, ngươi chỉ việc gõ lệnh phân trang (`memory_paging`) để gọi đúng trang đó lên!"*
+
+Chưa dừng lại ở đó, bạn thấy ban ngày Atlas làm việc quá vất vả vì vừa phải giải quyết việc mới, vừa phải lục lọi ký ức cũ. Bạn bảo nó:
+> *"Đêm nay, khi ta đi ngủ, ngươi hãy bật chế độ **Sleep-Time Compute**. Trong bóng đêm tĩnh lặng, hãy ngồi lọc lại những trang nhật ký lộn xộn. Thông tin nào rác rưởi, hãy cắt tỉa bỏ đi. Thông tin nào cũ bị thông tin mới phủ định, hãy dùng con dấu mềm (**Soft-Invalidation**) gạch nhẹ lên nó để không bị nhầm lẫn nhưng vẫn lưu lại được vết tích. Sau đó, đúc kết những gì học được thành những viên ngọc tri thức (**Memory Blocks**)."*
+
+Sáng hôm sau thức dậy, Atlas mở mắt ra với một tinh thần minh mẫn lạ thường. Bạn trang bị thêm cho bộ não của nó cỗ máy **mem0**:
+- Một ngăn **Vector** để tìm những ký ức mang cảm giác tương đồng.
+- Một ngăn **Đồ thị Tri thức (Graph)** giăng tơ như mạng nhện để nhớ rõ ai là cha của ai, dự án nào gắn với máy chủ nào.
+- Một ngăn **Key-Value** như két sắt bọc thép để cất giữ những thông tin chính xác tuyệt đối như mật khẩu, ID.
+- Và một dòng sông thời gian (**Recency Decay**) nhẹ nhàng cuốn trôi độ ưu tiên của những việc đã xảy ra từ năm ngoái, chỉ giữ lại sự sắc bén cho những gì bạn vừa căn dặn sáng nay.
+
+---
+
+### Hồi 5: Vùng đất Minecraft và Chiếc khiên chân lý *(Bài 10 & 11)*
+Bấy giờ, Atlas đã là một tác nhân dày dạn. Nhưng bạn muốn thử thách nó ở cấp độ tối cao. Bạn đưa nó vào một thế giới sinh tồn khắc nghiệt (**Voyager trong Minecraft**).
+
+Lúc đầu, để đào một mẩu than, nó lại phải loay hoay suy nghĩ từng cử động ngón tay. Bạn quát lớn:
+> *"Ngươi định cả đời làm thợ vụng sao? Một hành động thành công phải được viết thành **Mã nguồn (Code as Action)**! Đào gỗ thành công $\to$ đóng gói thành hàm `mine_wood()`. Tạo bàn chế tạo thành công $\to$ đóng gói thành `craft_table()`. Lần sau chỉ việc gọi lại hàm đó!"*
+
+Atlas bắt đầu xây dựng cả một kho tàng kỹ năng đồ sộ. Nhưng một tai họa mới lại ập đến: Atlas vừa nâng cấp hàm nhặt đá `mine_stone_v2`, bỗng nhiên cỗ máy xây lâu đài khổng lồ ở tầng trên đổ sụp tan tành! 
+Atlas hốt hoảng nhận ra: Kỹ năng cha phụ thuộc vào kỹ năng con, khi kỹ năng con bị sửa đổi mà không báo trước, cả hệ thống sẽ bị trôi dạt (**Composed-Skill Drift**). Bạn dạy nó bài học khắc cốt ghi tâm: **Ghim chặt phiên bản (Version Pinning)** cho mọi kỹ năng trong thư viện.
+
+Và cuối cùng, ngày hôm nay, bạn đưa Atlas đến trước Cổng Thành Sản Xuất Công Nghiệp — nơi bảo vệ hệ thống tài chính và tên lửa:
+> *"Ở đây không có chỗ cho sự 'có lẽ' hay 'suýt đúng' của trí tuệ nhân tạo. Một sai lầm nhỏ sẽ làm sụp đổ cả công ty!"*
+
+Bạn trao cho Atlas hai món bảo vật tối thượng:
+1. **Chiếc khiên ChatHTN**: Mọi hành vi của Atlas bị khóa chặt trong các **Toán tử (Operator)**. Muốn chạy kiểm thử? Bắt buộc trạng thái trước đó phải có `editor_open`. Muốn di chuyển cơ sở dữ liệu? Bắt buộc phải có `backup_complete`. Cho dù mô hình LLM bên trong có ảo tưởng hay cao hứng đề xuất điều gì, nếu vi phạm tiền điều kiện, chiếc khiên HTN sẽ đập tan đề xuất đó ngay trước cửa ải!
+2. **Ngọn lửa luyện kim AlphaEvolve**: Khi cần tối ưu hóa một thuật toán siêu tốc độ, Atlas không thèm nghe bất kỳ ai khen ngợi bằng lời nói. Nó ném hàng trăm biến thể mã nguồn vào lò lửa của **Bộ đánh giá tất định (Deterministic Evaluator)** — nơi những con số đo lường bằng micro-giây và kết quả unit test sẽ lạnh lùng loại bỏ những kẻ yếu kém và chỉ giữ lại mã nguồn hoàn hảo nhất.
+
+---
+
+## 📊 Bảng Tóm Tắt Ôn Tập Nhanh (Revision Cheat-Sheet)
+
+| Bài học | Tên công nghệ / Khái niệm | Vấn đề nó giải quyết | Từ khóa cốt lõi cần nhớ |
+|---|---|---|---|
+| **14/01** | The Agent Loop | Biến LLM từ bộ sinh chữ thành tác nhân hành động | `Think-Act-Observe`, `tool_result in user role`, `max_turns` |
+| **14/02** | ReWOO / DAG Planning | Tiết kiệm token, tránh chạy lặp vô ích | `Topological Sort`, `Execution DAG`, `Variable binding #E` |
+| **14/03** | Reflexion / Verbal RL | Sửa sai mà không cần huấn luyện lại trọng số | `Verbal memory`, `Self-reflection`, `Tránh superstition` |
+| **14/04** | Tree of Thoughts / LATS | Giải quyết các bài toán lập luận phức tạp cần quay đầu | `MCTS`, `UCT formula`, `Rollout & Backtracking` |
+| **14/05** | CRITIC & Self-Refine | Chống việc LLM tự chấm điểm dễ dãi (rubber stamp) | `Tool-augmented critique`, `External verification` |
+| **14/06** | Function Calling & Tools | Giao tiếp chuẩn xác với môi trường ngoài | `JSON Schema`, `State-based evaluation`, `Strict typing` |
+| **14/07** | Virtual Context (MemGPT) | Vượt qua giới hạn độ dài của context window | `Core memory (RAM)`, `Archival memory (Disk)`, `Paging` |
+| **14/08** | Sleep-Time Compute | Dọn dẹp và cô đọng ký ức khi rảnh rỗi | `Off-path pruning`, `Soft-invalidation`, `Memory blocks` |
+| **14/09** | Hybrid Memory (mem0) | Bộ nhớ đa góc nhìn (tương đồng + quan hệ + chính xác) | `Vector + Graph + KV`, `Recency decay`, `Scope isolation` |
+| **14/10** | Lifelong Skills (Voyager) | Học tập trọn đời, kỹ năng tích lũy không bị quên | `Action as code`, `Skill library`, `Composed-skill drift` |
+| **14/11** | HTN & AlphaEvolve | Đảm bảo tính đúng đắn 100% & tối ưu hóa mã nguồn | `Preconditions & Effects`, `Symbolic soundness`, `Deterministic evaluator` |
+
+---
+
+> [!TIP]
+> **Bước tiếp theo (Bài 14/12):** 
+> Giờ đây Atlas đã có nhịp đập, đôi tay, trí nhớ vô hạn, kho kỹ năng và kỷ luật thép. Bài học tiếp theo sẽ chỉ cho bạn cách tổ chức các tác nhân này làm việc theo các cấu trúc quy trình công nghiệp: **Anthropic's Workflow Patterns** (Chaining, Routing, Parallelization, Orchestrator-Workers, Evaluator-Optimizer).

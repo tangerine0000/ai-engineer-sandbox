@@ -13,3 +13,7 @@ This repo belongs to the GitHub account `tangerine0000`. It does not belong to `
 
 - Run `gh auth status`. Make sure that `tangerine0000` is the active account.
 - If `tannguyen-innomize` is active, run `gh auth switch --hostname github.com --user tangerine0000`.
+
+## Learning workflow rule
+
+- Whenever a curriculum lesson is completed and logged in `LEARNING.md`, the agent MUST update `REPORT.md` (The Odyssey of Atlas / Story summary and revision table) with the newly completed lesson to keep the narrative story and cheat-sheet synchronized.
