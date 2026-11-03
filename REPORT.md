@@ -29,7 +29,11 @@ flowchart TD
         L10["14/10 Voyager & Skill Library<br/>(Kỹ năng là mã nguồn, Version Pinning)"] --> L11["14/11 HTN & AlphaEvolve<br/>(Kỷ luật tiền điều kiện & Đánh giá tất định)"]
     end
 
-    Act1 --> Act2 --> Act3 --> Act4 --> Act5
+    subgraph Act6["Hồi 6: Kiến Trúc Tối Giản (Simple Over Complex)"]
+        L12["14/12 Anthropic Workflow Patterns<br/>(5 Mẫu quy trình: Chaining, Routing, Parallel, Workers, Optimizer)"]
+    end
+
+    Act1 --> Act2 --> Act3 --> Act4 --> Act5 --> Act6
 ```
 
 ---
@@ -123,6 +127,25 @@ Bạn trao cho Atlas hai món bảo vật tối thượng:
 
 ---
 
+### Hồi 6: Thanh gươm Occam và 5 Tuyệt kỹ tối giản *(Bài 12)*
+Mang trong mình sức mạnh vô song, Atlas đâm ra kiêu ngạo. Gặp bất kỳ bài toán nào của khách hàng — kể cả một việc phân loại email đơn giản — nó cũng vội vã lôi về những framework đa tác nhân khổng lồ, dựng lên những "đội quân" tác nhân tự trị nói chuyện ríu rít với nhau. 
+
+Kết quả là một thảm họa: Chi phí token tăng vọt không kiểm soát, các tác nhân nói chuyện vòng vo, và khi một tác nhân hiểu lầm rồi tự ý gọi công cụ hoàn tiền sai bét, Atlas hoàn toàn bất lực không thể giải trình hay debug vì luồng thực thi bị che giấu dưới hàng ngàn dòng mã của framework bên ngoài!
+
+Bạn bèn gõ mạnh vào trán nó, rút ra thanh gươm mang tên **Triết lý Anthropic: Đơn giản hơn phức tạp (Simple Over Complex)**:
+> *"Dừng ngay trò diễn xiếc vô bổ đó lại! Một kỹ sư thực thụ không khoe khoang framework phức tạp, mà khoe hệ thống gọn gàng, ổn định và rẻ nhất. Ai làm chủ đồ thị? Nếu các bước có thể đoán trước được, chính **ngươi (kỹ sư)** phải làm chủ luồng thực thi (**Workflow**), chứ không được buông tay phó mặc cho mô hình tự tung tự tác (**Agent**)!"*
+
+Bạn truyền dạy cho Atlas **5 Mẫu quy trình căn bản (Workflows)** chỉ tốn vỏn vẹn 15 dòng Python thuần:
+1. **Prompt Chaining**: Nối ống tuần tự, đầu ra bước trước nuôi bước sau. Bạn dặn thêm: Phải đặt **Cổng kiểm soát lập trình (Programmatic Gate)** ở giữa, nếu bước trước sai thì code Python phải chặn đứng ngay, không để lỗi rác lan truyền.
+2. **Routing**: Dùng mô hình nhỏ phân loại rồi chia đường cho các hàm chuyên biệt xử lý, kiểm soát chặt chẽ từng quyền hạn công cụ.
+3. **Parallelization**: Phân chia nhiệm vụ độc lập chạy song song, hoặc cho nhiều cử tri bỏ phiếu lấy đa số nhằm bảo vệ các quyết định sinh tử.
+4. **Orchestrator-Workers**: Người chỉ huy phân bổ việc cho đội ngũ chuyên gia rồi tổng hợp báo cáo đúng một lượt, không lặp vô tận.
+5. **Evaluator-Optimizer**: Vòng lặp đề xuất và đánh giá. Atlas nhớ mãi bài học kinh nghiệm: Phải dùng cơ chế **Bandit** lưu giữ phương án có điểm số cao nhất qua các vòng, đề phòng vòng lặp muộn bị thoái hóa làm mất kết quả tốt nhất trước đó!
+
+Atlas thở phào nhẹ nhõm. Vứt bỏ những bộ khung cồng kềnh, hệ thống của nó giờ đây chạy với tốc độ tên lửa, chi phí tiết kiệm tối đa, và mọi dòng chảy dữ liệu đều minh bạch trong tầm tay.
+
+---
+
 ## 📊 Bảng Tóm Tắt Ôn Tập Nhanh (Revision Cheat-Sheet)
 
 | Bài học | Tên công nghệ / Khái niệm | Vấn đề nó giải quyết | Từ khóa cốt lõi cần nhớ |
@@ -138,9 +161,10 @@ Bạn trao cho Atlas hai món bảo vật tối thượng:
 | **14/09** | Hybrid Memory (mem0) | Bộ nhớ đa góc nhìn (tương đồng + quan hệ + chính xác) | `Vector + Graph + KV`, `Recency decay`, `Scope isolation` |
 | **14/10** | Lifelong Skills (Voyager) | Học tập trọn đời, kỹ năng tích lũy không bị quên | `Action as code`, `Skill library`, `Composed-skill drift` |
 | **14/11** | HTN & AlphaEvolve | Đảm bảo tính đúng đắn 100% & tối ưu hóa mã nguồn | `Preconditions & Effects`, `Symbolic soundness`, `Deterministic evaluator` |
+| **14/12** | Anthropic Workflow Patterns | Tránh bẫy phức tạp hóa đa tác nhân, tối ưu chi phí & kiểm soát | `5 Mẫu: Chain, Route, Parallel, Workers, Optimizer`, `Engineer-owned graph`, `Direct API first`, `Bandit retention` |
 
 ---
 
 > [!TIP]
-> **Bước tiếp theo (Bài 14/12):** 
-> Giờ đây Atlas đã có nhịp đập, đôi tay, trí nhớ vô hạn, kho kỹ năng và kỷ luật thép. Bài học tiếp theo sẽ chỉ cho bạn cách tổ chức các tác nhân này làm việc theo các cấu trúc quy trình công nghiệp: **Anthropic's Workflow Patterns** (Chaining, Routing, Parallelization, Orchestrator-Workers, Evaluator-Optimizer).
+> **Bước tiếp theo (Bài 14/13):** 
+> Giờ đây Atlas đã hiểu khi nào nên dùng quy trình (Workflow) và khi nào nên dùng tác nhân tự do. Nhưng nếu một quy trình vừa đòi hỏi đồ thị phức tạp, vừa cần duy trì trạng thái bền vững (Persistence), cho phép con người can thiệp (Human-in-the-loop) và tua lại thời gian (Time-travel)? Bài học tiếp theo sẽ mở ra cánh cổng đến với **LangGraph: Stateful Graphs**!
