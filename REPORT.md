@@ -37,7 +37,11 @@ flowchart TD
         L13["14/13 LangGraph & Checkpoints<br/>(Máy trạng thái, Checkpointer & Human-in-the-loop)"]
     end
 
-    Act1 --> Act2 --> Act3 --> Act4 --> Act5 --> Act6 --> Act7
+    subgraph Act8["Hồi 8: Bồ Câu Đưa Thư & Pháo Đài Độc Lập (The Actor Model)"]
+        L14["14/14 The Actor Model<br/>(Hộp thư bất đồng bộ, Cách ly lỗi DLQ, AutoGen v0.4)"]
+    end
+
+    Act1 --> Act2 --> Act3 --> Act4 --> Act5 --> Act6 --> Act7 --> Act8
 ```
 
 ---
@@ -168,6 +172,26 @@ Atlas nắm chặt chiếc mỏ neo trong tay. Giờ đây, đối mặt với b
 
 ---
 
+### Hồi 8: Đàn bồ câu đưa thư và Những pháo đài bất khả xâm phạm *(Bài 14)*
+Sau khi làm chủ đồ thị trạng thái tuần tự, Atlas được giao quản lý một đội ngũ nhiều tác nhân chuyên trách (Reviewer, Tester, Formatter) cùng làm việc đồng thời. Nhưng bi kịch lại xuất hiện dưới một hình thức khác: 
+Atlas cho các tác nhân gọi nhau theo kiểu đồng bộ truyền thống: `agent_a.chat(agent_b)`. Cứ mỗi lần Agent A gọi Agent B, Agent A bị đóng băng toàn bộ tiến trình để chờ đợi. Tệ hại hơn, khi Agent B gặp một dòng mã độc phát sinh lỗi không lường trước (`RuntimeError`), cú nổ ngoại lệ đó lập tức làm nổ tung cả Call Stack của Agent A, kéo sập toàn bộ hệ thống!
+
+Bạn bước đến, mang theo bản thiết kế **Mô hình Tác tử (The Actor Model)** — linh hồn của **AutoGen v0.4** và **Microsoft Agent Framework**:
+> *"Một liên minh lớn mạnh không được vận hành bằng sự phụ thuộc lẫn nhau mong manh như thế! Ngươi hãy biến mỗi tác nhân thành một **Pháo đài độc lập (Actor)**. Không chia sẻ bộ nhớ, không chọc ngoáy trực tiếp vào biến nội bộ của nhau!"*
+
+Bạn trao cho Atlas 4 nguyên lý thép của thế giới Tác tử:
+1. **Hòm thư riêng biệt & Giao tiếp bất đồng bộ (Inbox & Async Messages)**: Tác nhân chỉ tương tác thông qua thông điệp có kiểu rõ ràng (`Message`). Khi gửi tin (`runtime.send()`), người gửi ném thư vào hòm thư đối phương rồi quay lưng đi làm việc khác ngay lập tức, không bao giờ bị nghẽn mạch hay đóng băng luồng.
+2. **Cách ly lỗi tuyệt đối (Fault Isolation - "Let it crash")**: Trạm điều phối (**Runtime**) bọc từng lượt xử lý thư trong vùng đệm an toàn. Khi một tác nhân nổ tung vì lỗi xử lý, chỉ riêng bức thư đó bị chuyển vào **Hòm thư chết (Dead-Letter Queue - DLQ)** để người giám sát kiểm tra sau. Các tác nhân khác và hàng chục bức thư bình thường trong hàng đợi vẫn tiếp tục được xử lý trơn tru!
+3. **Phân tầng kiến trúc (Three Layers)**:
+   - **Core**: Tầng nền tảng Actor gọn nhẹ, event loop và hàng đợi bất đồng bộ.
+   - **AgentChat**: Tầng điều phối đội nhóm cấp cao với các đội hình linh hoạt: **RoundRobinGroupChat** (xoay vòng luân phiên), **SelectorGroupChat** (mô hình điều phối tự chọn chuyên gia kế tiếp), và biệt đội tham chiếu **Magentic-One**.
+   - **Extensions**: Cầu nối tích hợp các mô hình (OpenAI, Anthropic) và công cụ ngoại vi.
+4. **Giám sát vi mô bằng OTel GenAI**: Mọi bức thư bay qua lại giữa các pháo đài đều tự động phát ra các Span OpenTelemetry mang thuộc tính chuẩn `gen_ai.*`, giúp kỹ sư soi rõ từng mili-giây hành trình của tin nhắn trong bóng tối hệ thống phân tán.
+
+Atlas mỉm cười nhìn đàn bồ câu đưa thư bay rợp trời giữa các pháo đài. Giờ đây, một thành viên ngã xuống không còn làm cả liên minh sụp đổ, và việc mở rộng từ một máy tính sang hàng ngàn máy chủ qua mạng TCP/UDP chỉ là câu chuyện đổi mới đường truyền vận chuyển!
+
+---
+
 ## 📊 Bảng Tóm Tắt Ôn Tập Nhanh (Revision Cheat-Sheet)
 
 | Bài học | Tên công nghệ / Khái niệm | Vấn đề nó giải quyết | Từ khóa cốt lõi cần nhớ |
@@ -185,9 +209,10 @@ Atlas nắm chặt chiếc mỏ neo trong tay. Giờ đây, đối mặt với b
 | **14/11** | HTN & AlphaEvolve | Đảm bảo tính đúng đắn 100% & tối ưu hóa mã nguồn | `Preconditions & Effects`, `Symbolic soundness`, `Deterministic evaluator` |
 | **14/12** | Anthropic Workflow Patterns | Tránh bẫy phức tạp hóa đa tác nhân, tối ưu chi phí & kiểm soát | `5 Mẫu: Chain, Route, Parallel, Workers, Optimizer`, `Engineer-owned graph`, `Direct API first`, `Bandit retention` |
 | **14/13** | Stateful Graph (LangGraph) | Chống mất mát dữ liệu khi sập luồng, dừng chờ người duyệt không tốn RAM | `State Machine`, `Checkpointer (Durable execution)`, `Reducers (add_messages)`, `Conditional Edges`, `Human-in-the-loop` |
+| **14/14** | The Actor Model (AutoGen v0.4) | Giao tiếp bất đồng bộ, cách ly lỗi tuyệt đối, tự nhiên song song | `Private state + Inbox`, `Decoupled send/receive`, `Dead-Letter Queue (DLQ)`, `Core vs AgentChat`, `OTel GenAI spans`, `Microsoft Agent Framework` |
 
 ---
 
 > [!TIP]
-> **Bước tiếp theo (Bài 14/14):** 
-> Với LangGraph, Atlas đã làm chủ đồ thị trạng thái bền vững với luồng điều khiển tập trung hoặc tuần tự. Nhưng nếu cần một mạng lưới hàng chục tác nhân chạy bất đồng bộ cao độ, liên lạc bằng các hòm thư truyền tin (Message Passing) độc lập mà không bị thắt cổ chai bởi trạng thái chung? Bài học tiếp theo sẽ đưa Atlas khám phá **Mô hình Tác tử (The Actor Model with AutoGen v0.4)**!
+> **Bước tiếp theo (Bài 14/15):** 
+> Với Mô hình Tác tử, Atlas đã có nền tảng truyền tin bất đồng bộ vững chắc và khả năng chịu lỗi. Nhưng làm thế nào để tổ chức một đội ngũ làm việc chuyên nghiệp với các vai trò (Roles), mục tiêu cụ thể, quy trình (Processes) phân cấp và ủy thác công việc thực tế? Bài học tiếp theo sẽ đưa Atlas đến với **Đội ngũ Tác nhân Theo Vai trò (Role-Based Agent Teams with CrewAI)**!

@@ -55,6 +55,7 @@ Total for Do phases: ~788 hours. Phase 19 holds all capstone projects. The portf
 | 2026-11-03 | 14/11 Planning with HTN and Evolutionary Search | 2/2 | Warm-up 2/2. Post-quiz 2/2. Noted precondition enforcement as state invariant check vs missing facts. Identified LLM caching to avoid token/latency overhead and deterministic fitness evaluator requirement for AlphaEvolve. |
 | 2026-11-04 | 14/12 Anthropic Workflow Patterns | 2/2 | Warm-up 1/2. Post-quiz 2/2. Highlighted risks of autonomous bias/spontaneous actions vs bounded workflows. Noted programmatic transition gates and bandit best-of-N retention for evaluator-optimizer. |
 | 2026-11-09 | 14/13 Stateful Graph Orchestration — Durable Execution and Checkpoints | 2/2 | Warm-up 2/2. Post-quiz 2/2. Highlighted human-in-the-loop pause without live memory retention. Noted raw dict clobbering vs LangGraph reducers and checkpoint scope for durable recovery. |
+| 2026-11-09 | 14/14 The Actor Model for Agents | 2/2 | Warm-up 2/2. Post-quiz 2/2. Predicted synchronous stack crash vs actor fault isolation. Traced DLQ execution and recognized TCP network transports for distributed mailboxes. |
 
 ## Review queue
 | Lesson | Missed topic |
