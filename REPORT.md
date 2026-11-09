@@ -33,7 +33,11 @@ flowchart TD
         L12["14/12 Anthropic Workflow Patterns<br/>(5 Mẫu quy trình: Chaining, Routing, Parallel, Workers, Optimizer)"]
     end
 
-    Act1 --> Act2 --> Act3 --> Act4 --> Act5 --> Act6
+    subgraph Act7["Hồi 7: Cỗ Máy Trạng Thái Bất Diệt (Stateful Orchestration)"]
+        L13["14/13 LangGraph & Checkpoints<br/>(Máy trạng thái, Checkpointer & Human-in-the-loop)"]
+    end
+
+    Act1 --> Act2 --> Act3 --> Act4 --> Act5 --> Act6 --> Act7
 ```
 
 ---
@@ -146,6 +150,24 @@ Atlas thở phào nhẹ nhõm. Vứt bỏ những bộ khung cồng kềnh, hệ
 
 ---
 
+### Hồi 7: Chiếc mỏ neo thời gian và Cỗ máy bất diệt *(Bài 13)*
+Những tưởng Atlas đã hoàn thiện, nhưng một thử thách thực tế khắc nghiệt lại giáng xuống. Trong một chuỗi quy trình sản xuất phức tạp kéo dài 40 bước (từ thẩm định dữ liệu, sinh báo cáo, tương tác API ngân hàng cho đến chuyển tiền hoàn tất), đến bước thứ 38 — chỉ một tích tắc mạng chập chờn — toàn bộ chương trình bị ngắt đột ngột. 
+
+Atlas lại bật khóc trong vô vọng: Toàn bộ biến nhớ trong RAM bốc hơi sạch sẽ. Để hoàn thành bước 38, nó buộc phải chạy lại từ bước 1: đốt thêm hàng tá tiền token, gọi lại các API bên ngoài, thậm chí có nguy cơ trừ tiền hai lần của khách hàng! Chưa kể, ở bước 39 cần một con người quản lý ký duyệt chuyển $5,000, Atlas phải giữ nguyên tiến trình treo sống dở chết dở trong RAM cả ngày để chờ đợi.
+
+Bạn bước tới, trao cho nó chiếc mỏ neo mang tên **LangGraph — Kiến trúc đồ thị trạng thái bền vững (Stateful Graph)**:
+> *"Một hệ thống phân tán cấp doanh nghiệp không bao giờ được phép mong manh như thế! Hãy xem tác nhân của ngươi là một **Cỗ máy trạng thái (State Machine)**. Mỗi trạm dừng là một hàm thuần túy (**Node**), mỗi lối rẽ là một cạnh có điều kiện (**Conditional Edge**). Và quan trọng nhất: Sau mỗi lần một Node hoàn tất, ngươi phải lập tức thả một chiếc mỏ neo ghi trạng thái vào đĩa (**Checkpointer** - SQLite, Postgres)!"*
+
+Bạn chỉ cho nó 4 bảo kiếm vận hành:
+1. **Durable Execution (Thực thi bền vững)**: Khi sập ở bước 38, không bao giờ chạy lại từ đầu! Chỉ cần gọi `resume(session_id)`, cỗ máy sẽ lập tức sống lại từ mỏ neo bước 37 với toàn bộ dữ liệu nguyên vẹn từng byte.
+2. **Human-in-the-loop (Người can thiệp)**: Cần người duyệt? Cứ việc lưu trạng thái xuống đĩa rồi tắt nguồn tiến trình đi ngủ! Không tốn một byte RAM, không treo luồng máy chủ. Khi sếp bấm nút "Phê duyệt" vào ngày hôm sau, chỉ cần nạp lại trạng thái và tiếp tục bước tiếp theo.
+3. **Reducers (Quy tắc hợp nhất trạng thái)**: Nhớ lấy cạm bẫy của việc ghi đè dictionary! Phải dùng bộ giảm lược (`Annotated[list, add_messages]`) để lịch sử hội thoại được nối dài tuần tự thay vì bị bản cập nhật mới xóa sạch.
+4. **Deterministic Nodes (Tính tất định của Node)**: Mọi sự ngẫu nhiên, con dấu thời gian hay dữ liệu API phải được bắt trọn vào trạng thái, đảm bảo khi tua lại (Time-travel/Resume), hệ thống không tạo ra các nhánh rẽ sai lệch.
+
+Atlas nắm chặt chiếc mỏ neo trong tay. Giờ đây, đối mặt với bão tố rớt mạng, sập nguồn hay những quy trình kiểm duyệt ngặt nghèo của con người, cỗ máy của nó vẫn sừng sững không thể bị đánh bại!
+
+---
+
 ## 📊 Bảng Tóm Tắt Ôn Tập Nhanh (Revision Cheat-Sheet)
 
 | Bài học | Tên công nghệ / Khái niệm | Vấn đề nó giải quyết | Từ khóa cốt lõi cần nhớ |
@@ -162,9 +184,10 @@ Atlas thở phào nhẹ nhõm. Vứt bỏ những bộ khung cồng kềnh, hệ
 | **14/10** | Lifelong Skills (Voyager) | Học tập trọn đời, kỹ năng tích lũy không bị quên | `Action as code`, `Skill library`, `Composed-skill drift` |
 | **14/11** | HTN & AlphaEvolve | Đảm bảo tính đúng đắn 100% & tối ưu hóa mã nguồn | `Preconditions & Effects`, `Symbolic soundness`, `Deterministic evaluator` |
 | **14/12** | Anthropic Workflow Patterns | Tránh bẫy phức tạp hóa đa tác nhân, tối ưu chi phí & kiểm soát | `5 Mẫu: Chain, Route, Parallel, Workers, Optimizer`, `Engineer-owned graph`, `Direct API first`, `Bandit retention` |
+| **14/13** | Stateful Graph (LangGraph) | Chống mất mát dữ liệu khi sập luồng, dừng chờ người duyệt không tốn RAM | `State Machine`, `Checkpointer (Durable execution)`, `Reducers (add_messages)`, `Conditional Edges`, `Human-in-the-loop` |
 
 ---
 
 > [!TIP]
-> **Bước tiếp theo (Bài 14/13):** 
-> Giờ đây Atlas đã hiểu khi nào nên dùng quy trình (Workflow) và khi nào nên dùng tác nhân tự do. Nhưng nếu một quy trình vừa đòi hỏi đồ thị phức tạp, vừa cần duy trì trạng thái bền vững (Persistence), cho phép con người can thiệp (Human-in-the-loop) và tua lại thời gian (Time-travel)? Bài học tiếp theo sẽ mở ra cánh cổng đến với **LangGraph: Stateful Graphs**!
+> **Bước tiếp theo (Bài 14/14):** 
+> Với LangGraph, Atlas đã làm chủ đồ thị trạng thái bền vững với luồng điều khiển tập trung hoặc tuần tự. Nhưng nếu cần một mạng lưới hàng chục tác nhân chạy bất đồng bộ cao độ, liên lạc bằng các hòm thư truyền tin (Message Passing) độc lập mà không bị thắt cổ chai bởi trạng thái chung? Bài học tiếp theo sẽ đưa Atlas khám phá **Mô hình Tác tử (The Actor Model with AutoGen v0.4)**!
